@@ -1,0 +1,1263 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@400;500;700;800&display=swap');
+
+:root {
+    --bg: #0a0808;
+    --surface: rgba(18, 14, 14, 0.92);
+    --surface-solid: #151010;
+    --surface-hover: #221414;
+    --orange: #d32f2f;
+    --orange-bright: #ffb7b2;
+    --text: #fdfaf6;
+    --muted: #b5abaa;
+    --muted-dark: #857472;
+    --border: #4a2c2c;
+    --shadow: 0 14px 40px rgba(3, 0, 12, .45);
+    --sidebar-width: 280px;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; margin: 0; padding: 0; }
+body {
+    color: var(--text);
+    background: var(--bg);
+    font-family: "Noto Sans JP", sans-serif;
+    line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+
+.site-shell {
+    position: relative;
+    min-height: 100vh;
+    background:
+        linear-gradient(135deg, rgba(13, 11, 11, .95), rgba(20, 15, 15, .98)),
+        url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2200&q=80") center/cover fixed;
+}
+.site-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.12;
+    background-image: 
+        linear-gradient(90deg, transparent 49.5%, var(--orange-bright) 50%, transparent 50.5%),
+        linear-gradient(0deg, transparent 49.5%, var(--orange-bright) 50%, transparent 50.5%);
+    background-size: 50px 50px;
+    pointer-events: none;
+}
+
+.site-shell > header,
+.site-shell > .content,
+.site-shell > .footer {
+    position: relative;
+    z-index: 2;
+}
+
+.topbar {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5vw;
+    background: rgba(13, 11, 11, 0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+}
+.brand {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--text);
+    font: 600 22px "Shippori Mincho", serif;
+    letter-spacing: .5px;
+}
+.brand span span, .brand strong { color: var(--orange-bright); }
+.brand-mark { color: var(--orange); font-size: 24px; }
+
+.menu-toggle {
+    width: 42px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+}
+.menu-toggle:hover { border-color: var(--orange); background: rgba(211, 47, 47, 0.15); }
+.menu-toggle span { width: 20px; height: 2px; background: var(--text); display: block; }
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    padding: 30px 24px;
+    background: #120e0e;
+    border-left: 1px solid var(--border);
+    box-shadow: -15px 0 40px rgba(0,0,0,0.8);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+}
+.menu-open .sidebar { transform: translateX(0); }
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 2, 12, 0.75);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 90;
+}
+.menu-open .overlay { opacity: 1; pointer-events: auto; }
+
+.sidebar-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color: var(--muted-dark);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+.close-menu {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 18px;
+    cursor: pointer;
+}
+.close-menu:hover { color: var(--text); border-color: var(--orange); }
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-left: 3px solid transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+.sidebar nav a.active, .sidebar nav a:hover {
+    border-left-color: var(--orange);
+    color: var(--text);
+    background: var(--surface-hover);
+}
+.nav-icon { color: var(--orange-bright); font-size: 18px; }
+
+.content {
+    min-height: calc(100vh - 140px);
+    padding: 6vh 5vw;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 5vw;
+    color: var(--muted-dark);
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    background: rgba(10, 8, 8, 0.8);
+}
+
+.bento-home {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.bento-hero {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+.bento-hero-content {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+}
+.eyebrow {
+    color: var(--orange-bright);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid rgba(211, 47, 47, 0.4);
+    background: rgba(211, 47, 47, 0.08);
+    width: fit-content;
+}
+.bento-hero-content h1 {
+    font: 700 clamp(34px, 4vw, 52px)/1.1 "Shippori Mincho", serif;
+    margin: 0 0 20px 0;
+}
+.bento-hero-content h1 span { color: var(--orange-bright); display: block; }
+.bento-hero-content p { color: var(--muted); font-size: 14px; margin: 0 0 30px 0; }
+.hero-actions { display: flex; gap: 15px; }
+
+.btn-primary, .btn-secondary {
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid transparent;
+}
+.btn-primary { background: var(--orange); color: #fff; }
+.btn-primary:hover { background: #b71c1c; }
+.btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+.btn-secondary:hover { border-color: var(--orange-bright); background: rgba(255, 183, 178, 0.1); }
+
+.bento-hero-visual { position: relative; min-height: 300px; overflow: hidden; }
+.bento-hero-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8); }
+.visual-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(18,14,14,0.9), transparent); }
+
+.bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.bento-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+}
+.bento-icon {
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--orange);
+    background: rgba(211, 47, 47, 0.1);
+    margin-bottom: 20px;
+}
+.bento-card h3 { font: 600 20px "Shippori Mincho", serif; margin: 0 0 10px 0; }
+.bento-card p { color: var(--muted); font-size: 13px; margin: 0; flex-grow: 1; }
+.card-footer { margin-top: 20px; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 11px; color: var(--muted-dark); text-transform: uppercase; }
+.text-green { color: #81c784; font-weight: 700; }
+
+.status-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.status-list li { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot.active { background: #81c784; box-shadow: 0 0 8px #81c784; }
+.dot.standby { background: #ffd54f; box-shadow: 0 0 8px #ffd54f; }
+
+.dashboard-page, .settings-page { max-width: 1180px; margin: auto; }
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+.page-heading h1 { margin: 6px 0 4px; font: 600 36px "Shippori Mincho", serif; }
+
+.sensor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.sensor-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+.sensor-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--orange);
+    color: var(--orange-bright);
+    background: rgba(211, 47, 47, 0.1);
+}
+.sensor-label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.sensor-card strong { font: 600 24px "Shippori Mincho", serif; }
+
+.table-panel, .settings-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+}
+.panel-heading, .settings-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.panel-heading h2, .settings-panel-heading h2 { margin: 0 0 4px; font: 600 20px "Shippori Mincho", serif; }
+
+table { width: 100%; border-collapse: collapse; min-width: 600px; }
+th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+th { color: var(--muted-dark); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; background: rgba(0,0,0,0.2); }
+.value-chip { display: inline-block; padding: 4px 8px; border: 1px solid var(--border); font-size: 11px; font-weight: 500; }
+.value-chip.orange { color: #ffb7b2; background: rgba(211,47,47,0.15); border-color: var(--orange); }
+.value-chip.blue { color: #bca0ff; background: rgba(100,80,180,0.15); border-color: #7b61b5; }
+.value-chip.red { color: #ff9999; background: rgba(185,28,28,0.2); border-color: #b91c1c; }
+
+.login-standalone {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    background: var(--bg);
+}
+.login-brand { display: flex; align-items: center; gap: 10px; padding: 30px 6vw; font: 600 20px "Shippori Mincho", serif; color: var(--text); }
+.login-page { display: grid; place-content: center; padding: 20px; }
+.login-card {
+    width: min(440px, calc(100vw - 40px));
+    padding: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+.login-card h1 { margin: 8px 0 10px; font: 600 28px "Shippori Mincho", serif; }
+.login-card p { color: var(--muted); font-size: 13px; margin: 0 0 25px 0; }
+.login-form { display: grid; gap: 15px; }
+.login-form label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); }
+.login-form input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    background: rgba(10,8,8,0.9);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+}
+.login-form input:focus { border-color: var(--orange-bright); outline: none; }
+.login-form button {
+    height: 44px;
+    background: var(--orange);
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+.login-form button:hover { background: #b71c1c; }
+.login-home-button { display: inline-block; margin-top: 15px; color: var(--muted); font-size: 12px; }
+.login-footer { padding: 20px 6vw; display: flex; justify-content: space-between; color: var(--muted-dark); font-size: 11px; border-top: 1px solid var(--border); }
+
+.settings-form { display: grid; gap: 16px; max-width: 520px; }
+.settings-field { display: grid; gap: 6px; }
+.settings-field label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); }
+.settings-field input, .settings-field select {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    background: rgba(10,8,8,0.9);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+}
+.settings-form button {
+    height: 44px;
+    padding: 0 24px;
+    background: var(--orange);
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    justify-self: start;
+}
+.logout-dialog {
+    width: min(400px, calc(100vw - 40px));
+    padding: 30px;
+    background: #140d0d;
+    border: 1px solid var(--orange);
+    color: var(--text);
+}
+.logout-dialog::backdrop { background: rgba(0,0,0,0.8); }
+.logout-dialog h2 { margin: 10px 0 5px; font: 600 24px "Shippori Mincho", serif; }
+.logout-dialog p { color: var(--muted); font-size: 13px; margin: 0; }
+.logout-dialog-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.logout-dialog-actions button { padding: 8px 16px; font-weight: 700; text-transform: uppercase; font-size: 11px; cursor: pointer; border: 1px solid var(--border); }
+.logout-cancel { background: transparent; color: var(--muted); }
+.logout-confirm { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+@media (max-width: 900px) {
+    .bento-hero, .sensor-grid { grid-template-columns: 1fr; }
+    .bento-hero-content { border-right: none; border-bottom: 1px solid var(--border); }
+}
+
+/* Pengaman: sidebar dan overlay selalu fixed di atas semua elemen */
+.site-shell > .sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+.site-shell > .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+}
+
+/* =====================================================
+   DASHBOARD — tombol keluar & tabel bergaya Jepang
+   ===================================================== */
+.dashboard-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+}
+.live-badge i {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #81c784; box-shadow: 0 0 8px #81c784;
+    animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .35; } }
+
+/* Tombol keluar */
+.logout-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px 9px 10px;
+    color: var(--orange-bright);
+    background: rgba(211, 47, 47, 0.08);
+    border: 1px solid var(--orange);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: color .25s, background .25s, box-shadow .25s, transform .25s;
+}
+.logout-button::before {
+    content: "出";
+    display: grid;
+    place-items: center;
+    width: 28px; height: 28px;
+    font: 700 15px "Shippori Mincho", serif;
+    color: #fff;
+    background: var(--orange);
+    transition: transform .25s;
+}
+.logout-button:hover {
+    color: #fff;
+    background: var(--orange);
+    box-shadow: 0 0 22px rgba(211, 47, 47, .45);
+    transform: translateY(-1px);
+}
+.logout-button:hover::before { background: rgba(0,0,0,.25); transform: rotate(-8deg); }
+.logout-button:focus-visible { outline: 2px solid var(--orange-bright); outline-offset: 3px; }
+
+/* Panel tabel */
+.table-panel { position: relative; padding: 32px; overflow: hidden; }
+.table-panel::before,
+.table-panel::after {
+    content: "";
+    position: absolute;
+    width: 22px; height: 22px;
+    border: 2px solid var(--orange);
+    pointer-events: none;
+}
+.table-panel::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.table-panel::after  { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+.table-panel .panel-heading { padding-bottom: 18px; border-bottom: 1px solid var(--border); position: relative; }
+.table-panel .panel-heading::after {
+    content: "";
+    position: absolute; left: 0; bottom: -1px;
+    width: 72px; height: 2px; background: var(--orange);
+}
+.table-panel .panel-heading h2::before {
+    content: "記録";
+    display: block;
+    margin-bottom: 4px;
+    font: 500 11px "Noto Sans JP", sans-serif;
+    letter-spacing: 4px;
+    color: var(--orange);
+}
+.panel-heading p { margin: 0; font-size: 12px; color: var(--muted-dark); }
+.last-update {
+    padding: 6px 12px;
+    font-size: 11px;
+    color: var(--orange-bright);
+    border: 1px dashed rgba(211, 47, 47, .6);
+    background: rgba(211, 47, 47, .06);
+}
+
+.table-wrapper { overflow-x: auto; margin-top: 8px; }
+.table-wrapper table { border-collapse: separate; border-spacing: 0 6px; }
+.table-wrapper th {
+    padding: 10px 14px;
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+}
+.table-wrapper th small {
+    display: block;
+    margin-bottom: 2px;
+    font: 500 11px "Shippori Mincho", serif;
+    letter-spacing: 3px;
+    color: var(--orange);
+}
+.table-wrapper td {
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 0;
+    border-top: 1px solid rgba(74, 44, 44, .55);
+    border-bottom: 1px solid rgba(74, 44, 44, .55);
+    transition: background .2s;
+    white-space: nowrap;
+}
+.table-wrapper td:first-child {
+    border-left: 3px solid transparent;
+    font: 700 14px "Shippori Mincho", serif;
+    color: var(--muted-dark);
+    width: 64px;
+}
+.table-wrapper td:last-child { border-right: 1px solid rgba(74, 44, 44, .55); }
+.table-wrapper tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.012); }
+.table-wrapper tbody tr:hover td { background: var(--surface-hover); }
+.table-wrapper tbody tr:hover td:first-child { border-left-color: var(--orange); color: var(--orange-bright); }
+.table-panel .table-wrapper tbody tr:first-child td:first-child::after {
+    content: "新";
+    margin-left: 8px;
+    padding: 1px 5px;
+    font: 700 10px "Shippori Mincho", serif;
+    color: #fff;
+    background: var(--orange);
+}
+
+/* Chip nilai seperti cap hanko */
+.table-wrapper .value-chip {
+    min-width: 84px;
+    padding: 5px 12px;
+    text-align: center;
+    font: 600 12px "Noto Sans JP", sans-serif;
+    letter-spacing: .5px;
+    border-radius: 2px;
+}
+
+.empty-state {
+    padding: 70px 20px;
+    text-align: center;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+}
+.empty-icon { font-size: 40px; color: var(--orange); }
+
+@media (max-width: 700px) {
+    .page-heading { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .table-panel { padding: 22px 16px; }
+}
+
+/* =====================================================
+   PENGATURAN — samakan dengan gaya dashboard
+   ===================================================== */
+.settings-panel { position: relative; overflow: hidden; padding: 32px; }
+.settings-panel::before,
+.settings-panel::after {
+    content: "";
+    position: absolute;
+    width: 22px; height: 22px;
+    border: 2px solid var(--orange);
+    pointer-events: none;
+}
+.settings-panel::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.settings-panel::after  { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+.settings-panel-heading { position: relative; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+.settings-panel-heading::after {
+    content: "";
+    position: absolute; left: 0; bottom: -1px;
+    width: 72px; height: 2px; background: var(--orange);
+}
+.settings-panel-heading h2::before {
+    display: block;
+    margin-bottom: 4px;
+    font: 500 11px "Noto Sans JP", sans-serif;
+    letter-spacing: 4px;
+    color: var(--orange);
+}
+.accounts-panel .settings-panel-heading h2::before { content: "一覧"; }
+.add-account-panel .settings-panel-heading h2::before { content: "新規"; }
+#edit-account .settings-panel-heading h2::before { content: "編集"; }
+.settings-panel-heading p { margin: 0; font-size: 12px; color: var(--muted-dark); }
+.settings-panel .settings-form { margin-top: 24px; }
+
+.account-username {
+    display: inline-block;
+    padding: 4px 12px;
+    font-weight: 600;
+    color: var(--orange-bright);
+    border: 1px solid var(--orange);
+    background: rgba(211, 47, 47, .1);
+    border-radius: 2px;
+}
+
+.table-wrapper td .btn-edit,
+.table-wrapper td .btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 14px;
+    font: 700 11px "Noto Sans JP", sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: .2s;
+}
+.btn-edit { color: var(--orange-bright); border: 1px solid var(--orange); background: rgba(211,47,47,.08); }
+.btn-edit:hover { color: #fff; background: var(--orange); }
+.btn-delete {
+    width: 30px; padding: 0 !important;
+    margin-left: 6px;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border);
+}
+.btn-delete:hover { color: #fff; background: #b71c1c; border-color: #b71c1c; }
+
+.settings-field input:focus,
+.settings-field select:focus { border-color: var(--orange-bright); outline: none; box-shadow: 0 0 0 3px rgba(211,47,47,.18); }
+.settings-form button {
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: .25s;
+}
+.settings-form button:hover { background: #b71c1c; box-shadow: 0 0 20px rgba(211,47,47,.4); }
+
+/* =====================================================
+   LOGIN — tampilan rapi bergaya Jepang
+   ===================================================== */
+.login-standalone {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 35%, rgba(211, 47, 47, .14), transparent 55%),
+        linear-gradient(135deg, rgba(13, 11, 11, .96), rgba(20, 15, 15, .98)),
+        url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2200&q=80") center/cover fixed;
+}
+.login-standalone::before {
+    content: "";
+    position: absolute; inset: 0;
+    opacity: .08;
+    background-image:
+        linear-gradient(90deg, transparent 49.5%, var(--orange-bright) 50%, transparent 50.5%),
+        linear-gradient(0deg, transparent 49.5%, var(--orange-bright) 50%, transparent 50.5%);
+    background-size: 50px 50px;
+    pointer-events: none;
+}
+.login-standalone::after {
+    content: "監視";
+    position: absolute;
+    right: 4vw; bottom: 8vh;
+    font: 800 clamp(120px, 20vw, 280px)/1 "Shippori Mincho", serif;
+    color: rgba(211, 47, 47, .05);
+    writing-mode: vertical-rl;
+    pointer-events: none;
+}
+.login-standalone > * { position: relative; z-index: 1; }
+
+.login-brand {
+    width: fit-content;
+    transition: opacity .2s;
+}
+.login-brand:hover { opacity: .8; }
+.login-brand .brand-mark { color: var(--orange); font-size: 24px; }
+.login-brand strong { color: var(--orange-bright); font-weight: 600; }
+
+.login-page { width: 100%; padding: 20px; }
+.login-card {
+    position: relative;
+    width: min(440px, calc(100vw - 40px));
+    padding: 48px 40px 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--orange);
+    box-shadow: var(--shadow), 0 0 60px rgba(211, 47, 47, .08);
+    backdrop-filter: blur(8px);
+}
+.login-card::before,
+.login-card::after {
+    content: "";
+    position: absolute;
+    width: 20px; height: 20px;
+    border: 2px solid var(--orange);
+    pointer-events: none;
+}
+.login-card::before { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+.login-card::after  { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+.login-stamp {
+    position: absolute;
+    top: -22px; right: 28px;
+    width: 46px; height: 46px;
+    display: grid; place-items: center;
+    font: 800 24px "Shippori Mincho", serif;
+    color: #fff;
+    background: var(--orange);
+    border: 2px solid var(--bg);
+    box-shadow: 0 6px 18px rgba(211, 47, 47, .45);
+    transform: rotate(6deg);
+}
+
+.login-card h1 { margin: 6px 0 8px; font: 700 28px "Shippori Mincho", serif; }
+.login-card > p { margin: 0 0 24px; padding-bottom: 20px; border-bottom: 1px dashed var(--border); color: var(--muted); font-size: 13px; }
+
+.login-error,
+.login-card .settings-alert {
+    margin: 0 0 18px;
+    padding: 11px 14px;
+    font-size: 12.5px;
+    color: #ffb7b2;
+    background: rgba(185, 28, 28, .15);
+    border: 1px solid #b91c1c;
+    border-left-width: 4px;
+}
+
+.login-form { gap: 8px; }
+.login-form label {
+    margin-top: 8px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+.login-form input {
+    height: 46px;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.login-form input::placeholder { color: var(--muted-dark); }
+.login-form input:hover { border-color: #6b3a3a; }
+.login-form input:focus {
+    border-color: var(--orange-bright);
+    background: rgba(18, 12, 12, 1);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, .2);
+}
+.login-form button {
+    height: 48px;
+    margin-top: 18px;
+    font-size: 13px;
+    letter-spacing: 3px;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background .25s, box-shadow .25s, transform .2s;
+}
+.login-form button:hover { background: #b71c1c; box-shadow: 0 0 24px rgba(211, 47, 47, .45); transform: translateY(-1px); }
+.login-form button:active { transform: translateY(0); }
+
+.login-home-button {
+    display: block;
+    width: fit-content;
+    margin: 22px auto 0;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: .5px;
+    transition: color .2s;
+}
+.login-home-button:hover { color: var(--orange-bright); }
+.login-footer { background: rgba(10, 8, 8, .6); }
+
+@media (max-width: 520px) {
+    .login-card { padding: 42px 24px 30px; }
+    .login-footer { flex-direction: column; gap: 4px; text-align: center; }
+}
+
+/* Login admin di halaman Pengaturan */
+.settings-login { display: grid; place-items: center; min-height: 60vh; }
+.settings-login .login-card { width: min(460px, 100%); margin: 0 auto; }
+
+/* =====================================================
+   ANIMASI MASUK — pintu fusuma terbuka + lingkaran enso
+   ===================================================== */
+.page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pt-hide .01s linear 1.95s forwards;
+}
+.pt-panel {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 50.5%;
+    background:
+        repeating-linear-gradient(90deg, transparent 0 79px, rgba(211, 47, 47, .10) 79px 80px),
+        linear-gradient(180deg, #0d0909, #080606);
+}
+.pt-left  { left: 0;  border-right: 2px solid var(--orange); animation: pt-left  1.95s cubic-bezier(.77, 0, .18, 1) forwards; }
+.pt-right { right: 0; border-left:  2px solid var(--orange); animation: pt-right 1.95s cubic-bezier(.77, 0, .18, 1) forwards; }
+
+.pt-center {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 6px;
+    animation: pt-center 1.95s ease forwards;
+}
+.pt-enso {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 190px; height: 190px;
+    margin: -95px 0 0 -95px;
+    transform: rotate(-90deg);
+    overflow: visible;
+}
+.pt-enso circle {
+    fill: none;
+    stroke: var(--orange);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    filter: drop-shadow(0 0 6px rgba(211, 47, 47, .7));
+    animation: pt-enso .85s cubic-bezier(.65, 0, .35, 1) .2s forwards;
+}
+.pt-mark { font-size: 46px; line-height: 1; color: var(--orange-bright); }
+.pt-text { margin-top: 10px; font: 600 16px "Shippori Mincho", serif; letter-spacing: 6px; color: var(--text); }
+.pt-sub  { font: 400 10px "Noto Sans JP", sans-serif; letter-spacing: 6px; color: var(--muted-dark); }
+
+@keyframes pt-left   { 0%, 52% { transform: translateX(0); } 100% { transform: translateX(-101%); } }
+@keyframes pt-right  { 0%, 52% { transform: translateX(0); } 100% { transform: translateX(101%); } }
+@keyframes pt-center {
+    0%   { opacity: 0; transform: scale(.92); }
+    18%  { opacity: 1; transform: scale(1); }
+    48%  { opacity: 1; transform: scale(1); }
+    62%  { opacity: 0; transform: scale(1.06); }
+    100% { opacity: 0; }
+}
+@keyframes pt-enso { to { stroke-dashoffset: .07; } }
+@keyframes pt-hide { to { visibility: hidden; opacity: 0; } }
+
+/* Isi halaman muncul perlahan saat pintu terbuka */
+@keyframes rise {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: none; }
+}
+@keyframes drop {
+    from { opacity: 0; transform: translateY(-100%); }
+    to   { opacity: 1; transform: none; }
+}
+html:not(.no-intro) .has-intro .topbar { animation: drop .8s cubic-bezier(.16, 1, .3, 1) 1.05s both; }
+html.no-intro .page-transition { display: none; }
+
+html:not(.no-intro) .has-intro .bento-hero,
+html:not(.no-intro) .has-intro .bento-card,
+html:not(.no-intro) .has-intro .page-heading,
+html:not(.no-intro) .has-intro .sensor-card,
+html:not(.no-intro) .has-intro .table-panel,
+html:not(.no-intro) .has-intro .settings-panel,
+html:not(.no-intro) .has-intro .login-card,
+html:not(.no-intro) .has-intro .login-brand,
+html:not(.no-intro) .has-intro .login-footer,
+html:not(.no-intro) .has-intro .empty-state {
+    animation: rise .85s cubic-bezier(.16, 1, .3, 1) both;
+    animation-delay: calc(1.15s + var(--i, 0) * .12s);
+}
+.page-heading { --i: 0; }
+.bento-hero   { --i: 0; }
+.bento-card:nth-child(1) { --i: 1; }
+.bento-card:nth-child(2) { --i: 2; }
+.bento-card:nth-child(3) { --i: 3; }
+.sensor-card:nth-child(1) { --i: 1; }
+.sensor-card:nth-child(2) { --i: 2; }
+.sensor-card:nth-child(3) { --i: 3; }
+.sensor-card:nth-child(4) { --i: 4; }
+.table-panel { --i: 5; }
+.settings-panel:nth-of-type(1) { --i: 1; }
+.settings-panel:nth-of-type(2) { --i: 2; }
+.settings-panel:nth-of-type(3) { --i: 3; }
+.login-brand  { --i: 0; }
+.login-card   { --i: 1; }
+.login-footer { --i: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+    .page-transition { display: none; }
+    .topbar, .bento-hero, .bento-card, .page-heading, .sensor-card, .table-panel,
+    .settings-panel, .login-card, .login-brand, .login-footer, .empty-state { animation: none !important; }
+}
+
+/* =====================================================
+   DASHBOARD — animasi bergerak
+   ===================================================== */
+/* Kelopak sakura jatuh di latar belakang */
+.sakura { position: fixed; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+.petal {
+    position: absolute;
+    top: 0;
+    width: var(--size, 12px);
+    height: calc(var(--size, 12px) * .75);
+    background: linear-gradient(135deg, #ffd1cd, #ff8f8a);
+    border-radius: 150% 0 150% 0;
+    opacity: 0;
+    filter: blur(.3px);
+    animation: petal-fall var(--dur, 14s) linear var(--delay, 0s) infinite;
+}
+@keyframes petal-fall {
+    0%   { opacity: 0;  transform: translate3d(0, -8vh, 0) rotate(0deg); }
+    8%   { opacity: .55; }
+    50%  { transform: translate3d(var(--sway, 60px), 50vh, 0) rotate(200deg); }
+    92%  { opacity: .45; }
+    100% { opacity: 0;  transform: translate3d(calc(var(--sway, 60px) * -.4), 108vh, 0) rotate(400deg); }
+}
+
+/* Kartu sensor: ikon melayang, kartu terangkat saat disentuh */
+.dashboard-page .sensor-card {
+    position: relative;
+    overflow: hidden;
+    animation-fill-mode: backwards;
+    transition: transform .3s ease, border-color .3s, box-shadow .3s;
+}
+.dashboard-page .sensor-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--orange);
+    box-shadow: var(--shadow), 0 0 24px rgba(211, 47, 47, .25);
+}
+.dashboard-page .sensor-card::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 183, 178, .12), transparent);
+    transform: skewX(-18deg);
+    animation: card-sheen 6s ease-in-out 2.5s infinite;
+    pointer-events: none;
+}
+.dashboard-page .sensor-card:nth-child(2)::after { animation-delay: 3.2s; }
+.dashboard-page .sensor-card:nth-child(3)::after { animation-delay: 3.9s; }
+.dashboard-page .sensor-card:nth-child(4)::after { animation-delay: 4.6s; }
+@keyframes card-sheen { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+
+.dashboard-page .sensor-icon { position: relative; animation: icon-float 3.2s ease-in-out infinite; }
+.dashboard-page .sensor-card:nth-child(2) .sensor-icon { animation-delay: .4s; }
+.dashboard-page .sensor-card:nth-child(3) .sensor-icon { animation-delay: .8s; }
+.dashboard-page .sensor-card:nth-child(4) .sensor-icon { animation-delay: 1.2s; }
+.dashboard-page .sensor-icon::before {
+    content: "";
+    position: absolute; inset: -1px;
+    border: 1px solid var(--orange);
+    animation: icon-ring 2.8s ease-out infinite;
+    pointer-events: none;
+}
+@keyframes icon-float { 50% { transform: translateY(-5px); } }
+@keyframes icon-ring  { 0% { opacity: .7; transform: scale(1); } 100% { opacity: 0; transform: scale(1.6); } }
+
+/* Garis cahaya bergerak di tepi atas panel tabel */
+.dashboard-page .table-panel { animation-fill-mode: backwards; }
+.dashboard-page .table-panel .panel-heading::after {
+    width: 72px;
+    background: linear-gradient(90deg, var(--orange), var(--orange-bright), var(--orange));
+    background-size: 200% 100%;
+    animation: line-flow 3s linear infinite;
+}
+@keyframes line-flow { to { background-position: -200% 0; } }
+
+/* Baris tabel masuk satu per satu dari kanan */
+@keyframes row-in {
+    from { opacity: 0; transform: translateX(28px); }
+    to   { opacity: 1; transform: none; }
+}
+.dashboard-page .table-wrapper tbody tr {
+    animation: row-in .6s cubic-bezier(.16, 1, .3, 1) backwards;
+    animation-delay: calc(.25s + var(--r, 0) * .06s);
+}
+.dashboard-page .table-wrapper tbody tr:nth-child(1)  { --r: 0; }
+.dashboard-page .table-wrapper tbody tr:nth-child(2)  { --r: 1; }
+.dashboard-page .table-wrapper tbody tr:nth-child(3)  { --r: 2; }
+.dashboard-page .table-wrapper tbody tr:nth-child(4)  { --r: 3; }
+.dashboard-page .table-wrapper tbody tr:nth-child(5)  { --r: 4; }
+.dashboard-page .table-wrapper tbody tr:nth-child(6)  { --r: 5; }
+.dashboard-page .table-wrapper tbody tr:nth-child(7)  { --r: 6; }
+.dashboard-page .table-wrapper tbody tr:nth-child(8)  { --r: 7; }
+.dashboard-page .table-wrapper tbody tr:nth-child(9)  { --r: 8; }
+.dashboard-page .table-wrapper tbody tr:nth-child(10) { --r: 9; }
+.dashboard-page .table-wrapper tbody tr:nth-child(n+11) { --r: 10; }
+
+/* Tanda 新 berdenyut */
+.table-panel .table-wrapper tbody tr:first-child td:first-child::after { animation: badge-pulse 2s ease-in-out infinite; }
+@keyframes badge-pulse { 50% { box-shadow: 0 0 10px rgba(211, 47, 47, .9); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .sakura { display: none; }
+    .dashboard-page .sensor-card::after,
+    .dashboard-page .sensor-icon,
+    .dashboard-page .sensor-icon::before,
+    .dashboard-page .table-panel .panel-heading::after,
+    .dashboard-page .table-wrapper tbody tr,
+    .table-panel .table-wrapper tbody tr:first-child td:first-child::after { animation: none; }
+}
+
+/* =====================================================
+   LOGIN (dashboard & pengaturan) — animasi bergerak
+   ===================================================== */
+.login-standalone .sakura { z-index: 0; }
+
+/* Kisi latar bergeser pelan */
+@keyframes grid-drift { to { background-position: 50px 50px; } }
+.login-standalone::before,
+.site-shell:has(.login-card)::after { animation: grid-drift 14s linear infinite; }
+
+/* Kanji latar melayang pelan */
+@keyframes kanji-float { 50% { transform: translateY(-18px); color: rgba(211, 47, 47, .085); } }
+.login-standalone::after { animation: kanji-float 9s ease-in-out infinite; }
+
+/* Cahaya lembut bernapas di belakang kartu */
+.login-page, .settings-login { position: relative; }
+.login-page::before,
+.settings-login::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: min(640px, 90vw); aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(211, 47, 47, .22), transparent 65%);
+    animation: orb-breathe 6s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes orb-breathe {
+    0%, 100% { opacity: .55; transform: translate(-50%, -50%) scale(.9); }
+    50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* Stempel berayun dan menyala */
+.login-stamp { animation: stamp-swing 4.5s ease-in-out infinite; }
+@keyframes stamp-swing {
+    0%, 100% { transform: rotate(3deg); box-shadow: 0 6px 18px rgba(211, 47, 47, .35); }
+    50%      { transform: rotate(10deg) translateY(-3px); box-shadow: 0 10px 28px rgba(211, 47, 47, .65); }
+}
+
+/* Bracket pojok berdenyut */
+.login-card::before, .login-card::after { animation: bracket-pulse 3s ease-in-out infinite; }
+.login-card::after { animation-delay: 1.5s; }
+@keyframes bracket-pulse {
+    0%, 100% { width: 20px; height: 20px; opacity: .7; }
+    50%      { width: 30px; height: 30px; opacity: 1; }
+}
+
+/* Garis merah di atas kartu: cahaya mengalir */
+.login-card h1::after {
+    content: "";
+    display: block;
+    width: 64px; height: 2px;
+    margin-top: 10px;
+    background: linear-gradient(90deg, var(--orange), var(--orange-bright), var(--orange));
+    background-size: 200% 100%;
+    animation: line-flow 3s linear infinite;
+}
+
+/* Tombol masuk: kilau menyapu */
+.login-form button { position: relative; overflow: hidden; }
+.login-form button::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -70%;
+    width: 40%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .28), transparent);
+    transform: skewX(-20deg);
+    animation: btn-sheen 4s ease-in-out 2.5s infinite;
+}
+@keyframes btn-sheen { 0%, 60% { left: -70%; } 100% { left: 140%; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .login-standalone::before, .login-standalone::after, .site-shell:has(.login-card)::after,
+    .login-page::before, .settings-login::before, .login-stamp,
+    .login-card::before, .login-card::after, .login-card h1::after,
+    .login-form button::after { animation: none; }
+}
+
+/* =====================================================
+   ANIMASI KELUAR (logout) — matahari merah (hinomaru) meluas
+   lalu layar menggelap dengan kanji 終
+   ===================================================== */
+.logout-exit { position: fixed; inset: 0; z-index: 9999; overflow: hidden; cursor: progress; }
+.is-leaving > .site-shell { transition: filter .9s ease, opacity .9s ease; filter: blur(5px) brightness(.55); opacity: .8; }
+
+.ex-sun {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, #e53935, #b71c1c 55%, #6e0d0d);
+    clip-path: circle(0% at 50% 50%);
+    animation: ex-sun-grow .95s cubic-bezier(.6, 0, .2, 1) forwards;
+}
+.ex-ink {
+    position: absolute; inset: 0;
+    background: #080606;
+    opacity: 0;
+    animation: ex-fade .7s ease .8s forwards;
+}
+.ex-center {
+    position: absolute; inset: 0;
+    display: grid; place-content: center; justify-items: center; gap: 22px;
+}
+.ex-disc {
+    position: relative;
+    width: 168px; height: 168px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ef5350, var(--orange) 60%, #8e1616);
+    box-shadow: 0 0 60px rgba(211, 47, 47, .55), 0 0 140px rgba(211, 47, 47, .25);
+    opacity: 0; transform: scale(.55);
+    animation: ex-disc-in .8s cubic-bezier(.16, 1, .3, 1) 1.05s forwards;
+}
+.ex-disc::before {
+    content: ""; position: absolute; inset: -14px;
+    border: 1px solid rgba(255, 183, 178, .55); border-radius: 50%;
+    animation: ex-ripple 1.6s ease-out 1.5s infinite;
+}
+.ex-kanji {
+    font: 800 78px/1 "Shippori Mincho", serif; color: #fff;
+    clip-path: inset(0 100% 0 0);
+    animation: ex-brush .65s cubic-bezier(.65, 0, .35, 1) 1.45s forwards;
+}
+.ex-text, .ex-sub { opacity: 0; transform: translateY(12px); animation: ex-text-in .7s ease forwards; }
+.ex-text { font: 600 16px "Shippori Mincho", serif; letter-spacing: 7px; color: var(--text); animation-delay: 1.7s; }
+.ex-sub  { margin-top: -14px; font: 400 11px "Noto Sans JP", sans-serif; letter-spacing: 6px; color: var(--muted-dark); animation-delay: 1.9s; }
+
+@keyframes ex-sun-grow { to { clip-path: circle(150% at 50% 50%); } }
+@keyframes ex-fade     { to { opacity: 1; } }
+@keyframes ex-disc-in  { to { opacity: 1; transform: scale(1); } }
+@keyframes ex-ripple   { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(1.5); } }
+@keyframes ex-brush    { to { clip-path: inset(0 0 0 0); } }
+@keyframes ex-text-in  { to { opacity: 1; transform: none; } }
+
+/* =====================================================
+   LOGIN — efek meriah (lampion, kunang-kunang, cincin)
+   ===================================================== */
+.login-fx {
+    position: fixed; inset: 0; z-index: 1;
+    overflow: hidden; pointer-events: none;
+    translate: var(--mx, 0px) var(--my, 0px);
+    transition: translate .5s ease-out;
+}
+.login-standalone .login-fx { z-index: 0; }
+
+/* Cincin berputar + titik orbit */
+.fx-ring {
+    position: absolute; top: 50%; left: 50%;
+    width: var(--s); aspect-ratio: 1;
+    translate: -50% -50%;
+    border: 1px dashed rgba(211, 47, 47, .32);
+    border-radius: 50%;
+    animation: ring-spin var(--spin) linear infinite;
+}
+.fx-ring::after {
+    content: "";
+    position: absolute; top: -4px; left: 50%;
+    width: 8px; height: 8px; margin-left: -4px;
+    border-radius: 50%;
+    background: var(--orange-bright);
+    box-shadow: 0 0 14px 4px rgba(255, 140, 130, .7);
+}
+@keyframes ring-spin { to { rotate: 360deg; } }
+
+/* Kanji melayang naik */
+.fx-kanji {
+    position: absolute; bottom: -14vh;
+    font: 800 var(--size, 64px)/1 "Shippori Mincho", serif;
+    color: rgba(255, 183, 178, .075);
+    animation: kanji-rise var(--dur) linear var(--delay) infinite;
+}
+@keyframes kanji-rise {
+    0%   { transform: translateY(0) rotate(-6deg); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(-125vh) rotate(8deg); opacity: 0; }
+}
+
+/* Lampion kertas */
+.fx-lantern {
+    position: absolute; bottom: -90px;
+    width: var(--w, 32px); height: calc(var(--w, 32px) * 1.25);
+    border-radius: 46% / 40%;
+    background:
+        repeating-linear-gradient(0deg, transparent 0 7px, rgba(60, 5, 5, .45) 7px 8px),
+        linear-gradient(90deg, #7e1212, #e53935 50%, #7e1212);
+    box-shadow: 0 0 26px 6px rgba(255, 110, 70, .45), inset 0 0 12px rgba(255, 200, 120, .45);
+    opacity: .85;
+    animation: lantern-rise var(--dur) linear var(--delay) infinite, lantern-glow 2.6s ease-in-out infinite alternate;
+}
+.fx-lantern::before, .fx-lantern::after {
+    content: ""; position: absolute; left: 50%;
+    width: 46%; height: 6px; margin-left: -23%;
+    background: #1a0808; border-radius: 2px;
+}
+.fx-lantern::before { top: -3px; }
+.fx-lantern::after  { bottom: -3px; box-shadow: 0 8px 0 -2px #d4a64a, 0 14px 0 -3px #d4a64a; }
+@keyframes lantern-rise {
+    0%   { transform: translate(0, 0) rotate(-3deg); }
+    25%  { transform: translate(var(--sway), -32vh) rotate(3deg); }
+    50%  { transform: translate(calc(var(--sway) * -.6), -64vh) rotate(-3deg); }
+    75%  { transform: translate(var(--sway), -96vh) rotate(3deg); }
+    100% { transform: translate(0, -128vh) rotate(-3deg); }
+}
+@keyframes lantern-glow { to { filter: brightness(1.35); box-shadow: 0 0 40px 10px rgba(255, 130, 80, .6), inset 0 0 14px rgba(255, 210, 130, .6); } }
+
+/* Kunang-kunang */
+.fx-firefly {
+    position: absolute;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: #ffe082;
+    box-shadow: 0 0 10px 3px rgba(255, 213, 79, .75);
+    animation:
+        firefly-drift var(--dur) ease-in-out var(--delay) infinite alternate,
+        firefly-twinkle var(--tw) ease-in-out var(--delay) infinite;
+}
+@keyframes firefly-drift { to { transform: translate(var(--dx), var(--dy)); } }
+@keyframes firefly-twinkle { 0%, 100% { opacity: .1; } 50% { opacity: 1; } }
+
+/* Judul berkilau, kartu bergeser halus mengikuti kursor */
+.login-card h1 {
+    background: linear-gradient(100deg, #fdfaf6 35%, #ffb7b2 50%, #fdfaf6 65%) 0 0 / 250% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: title-shimmer 5s ease-in-out infinite;
+}
+@keyframes title-shimmer { 0%, 30% { background-position: 100% 0; } 80%, 100% { background-position: -50% 0; } }
+.login-card { translate: var(--px, 0px) var(--py, 0px); transition: translate .35s ease-out; }
+
+@media (max-width: 700px) { .fx-ring:nth-of-type(n+2) { display: none; } .fx-kanji { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .login-fx { display: none; }
+    .login-card h1 { animation: none; }
+}
